@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addPaste } from "../redux/pasteSlice";
 
@@ -6,7 +6,25 @@ const Home = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const dispatch = useDispatch();
+  const [text, setText] = useState("");
+  const [index, setIndex] = useState(0);
 
+  const phrase = "Save and share your code, notes, dates....";
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (index < phrase.length) {
+        setText((prev) => prev + phrase[index]);
+        setIndex((prev) => prev + 1);
+      } else {
+        clearInterval(interval);
+        setTimeout(() => {
+          setText("");
+          setIndex(0);
+        }, 1000);
+      }
+    }, 100);
+    return () => clearInterval(interval);
+  }, [index]);
   const paste = {
     id: Date.now().toLocaleString(),
     title,
@@ -26,8 +44,14 @@ const Home = () => {
     <div className="w-full h-screen bg-gradient-to-b from-black via-emerald-950 to-black py-20 ">
       <div className="md:w-3/4 w-full  text-white mx-auto px-5 md:px-0">
         <h1 className=" text-4xl font-bold text-center mb-10">
-          "Paste, Share, Store- <span className="text-emerald-500">Simplified"</span>
+          "Paste, Share, Store-{" "}
+          <span className="text-emerald-500">Simplified"</span>
         </h1>
+        <div className="w-full mx-auto mb-5">
+          <p className=" mb-5 text-center font-semibold text-emerald-200 text-md transition-all opacity-[0.7]">
+            {text}
+          </p>
+        </div>
         <div className="flex  justify-between gap-3">
           <input
             type="text"
