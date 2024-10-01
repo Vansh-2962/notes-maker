@@ -17,14 +17,7 @@ const Paste = () => {
   };
   const copyPaste = (content) => {
     if (content) navigator.clipboard.writeText(content);
-    toast.success("Post copied", {
-      style: {
-        background: "transparent",
-        border: "1px solid #059669",
-        color: "#fff",
-      },
-      position: "top-right",
-    });
+    toast.success("Post copied");
   };
 
   const viewPaste = (id) => {
